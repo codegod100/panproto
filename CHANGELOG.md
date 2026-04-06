@@ -4,6 +4,8 @@ All notable changes to panproto will be documented in this file.
 
 ## [Unreleased]
 
+## [0.27.0] - 2026-04-06
+
 ### Added
 
 - **panproto-theory-dsl**: New crate providing a declarative specification format for GAT theories, theory morphisms, compositions, and protocols. Three surface syntaxes: Nickel (`.ncl`) as the primary authoring format with typed contracts, record merge composition, parameterized templates, and imports; JSON and YAML as simpler alternatives. The evaluation pipeline normalizes any surface syntax to a `TheoryDocument`, then compiles it to `Theory` + `TheoryMorphism` + `Protocol`.
