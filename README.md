@@ -35,6 +35,7 @@ Level 4  Protolenses: dependent functions from schemas to lenses (Π(S). Lens(F(
 | [`panproto-mig`](crates/panproto-mig) | Migration engine: existence checks, compilation, lift, compose, invert, coverage analysis |
 | [`panproto-lens`](crates/panproto-lens) | [Protolenses](https://ncatlab.org/nlab/show/natural+transformation): schema-parameterized lens families, optic classification, symbolic simplification, auto-generation |
 | [`panproto-lens-dsl`](crates/panproto-lens-dsl) | Declarative lens DSL: Nickel/JSON/YAML specifications compiled to protolens chains and field transforms |
+| [`panproto-theory-dsl`](crates/panproto-theory-dsl) | Declarative theory DSL: Nickel/JSON/YAML specifications compiled to theories, morphisms, and protocols |
 | [`panproto-check`](crates/panproto-check) | Breaking change detection via structural diffing and protocol-aware classification |
 | [`panproto-protocols`](crates/panproto-protocols) | 51 semantic protocol definitions composed from building-block theories |
 | [`panproto-io`](crates/panproto-io) | Instance-level parse/emit codecs for semantic protocols (with `tree-sitter` feature: format-preserving round-trips via unified CST extraction lens) |
@@ -48,7 +49,7 @@ Level 4  Protolenses: dependent functions from schemas to lenses (Π(S). Lens(F(
 | [`panproto-core`](crates/panproto-core) | Re-export facade (feature-gated: `full-parse`, `project`, `git`, `llvm`, `jit`, `tree-sitter`) |
 | [`panproto-wasm`](crates/panproto-wasm) | WASM bindings with handle-based slab allocator, MessagePack boundary, and protolens entry points |
 | [`panproto-py`](crates/panproto-py) | Native Python bindings via PyO3 with `pythonize` (serde to Python dicts) |
-| [`panproto-cli`](crates/panproto-cli) | CLI (`schema`): validate, check, diff, lift, data, lens, expr, enrich, parse, git bridge, and version control |
+| [`panproto-cli`](crates/panproto-cli) | CLI (`schema`): validate, check, diff, lift, data, lens, theory, expr, enrich, parse, git bridge, and version control |
 
 ## Installation
 

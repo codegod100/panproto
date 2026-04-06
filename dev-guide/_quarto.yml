@@ -56,6 +56,7 @@ book:
         - chapters/33-project-assembly.qmd
         - chapters/34-llvm-jit.qmd
         - chapters/36-lens-dsl-engine.qmd
+        - chapters/37-theory-dsl-engine.qmd
     - part: "Contributing Process"
       chapters:
         - chapters/16-conventions.qmd

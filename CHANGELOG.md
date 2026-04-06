@@ -4,6 +4,17 @@ All notable changes to panproto will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- **panproto-theory-dsl**: New crate providing a declarative specification format for GAT theories, theory morphisms, compositions, and protocols. Three surface syntaxes: Nickel (`.ncl`) as the primary authoring format with typed contracts, record merge composition, parameterized templates, and imports; JSON and YAML as simpler alternatives. The evaluation pipeline normalizes any surface syntax to a `TheoryDocument`, then compiles it to `Theory` + `TheoryMorphism` + `Protocol`.
+- **panproto-theory-dsl**: Five body variants for theory documents: `theory` (sorts, operations, equations, directed equations, conflict policies), `morphism` (sort and operation mappings between named theories with validation via `check_morphism`), `compose` (ordered colimit steps replayed via `panproto_gat::recompose`), `protocol` (schema theory + instance theory + edge rules with `TheoryRef` resolution for named, inline, or composed references), and `bundle` (multiple definitions in one file with dependency-ordered compilation: theories, then compositions, then morphisms, then protocols).
+- **panproto-theory-dsl**: Nickel contract library (`contracts/theory.ncl`) bundled via `include_str!` with contracts for all document types and combinator functions (`simple`, `dependent`, `val_sort`, `param`, `unary`, `binary`, `nullary`, `eq`, `directed_eq`, `colimit`, `colimit_with_ops`, `edge_rule`, `keep_left`, `keep_right`, `fail_on_conflict`, `custom_policy`).
+- **panproto-theory-dsl**: `builtin_resolver()` providing lookup for all 11 panproto building-block theories (`ThGraph`, `ThConstraint`, `ThMulti`, `ThWType`, `ThMeta`, `ThSimpleGraph`, `ThHypergraph`, `ThInterface`, `ThFunctor`, `ThFlat`, `ThGraphInstance`).
+- **panproto-protocols**: Made six previously private theory constructor functions public (`th_simple_graph`, `th_hypergraph`, `th_interface`, `th_functor`, `th_flat`, `th_graph_instance`) for use by the theory DSL's builtin resolver.
+- **panproto-cli**: `schema theory` subcommand group with `validate`, `compile`, `compile-dir`, `check-morphism`, and `recompose` actions.
+- **Tutorial**: New chapter "Declarative Theory Specifications" covering theory authoring in Nickel/JSON/YAML, composition via colimit, morphism definitions, protocol construction, and bundles.
+- **Dev Guide**: New chapter "Theory DSL Engine" covering the `panproto-theory-dsl` crate architecture, evaluation layer, compilation pipeline, bundle dependency ordering, and builtin resolver.
+
 ## [0.26.0] - 2026-04-02
 
 ### Added

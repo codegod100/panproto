@@ -54,6 +54,7 @@ book:
         - chapters/18-symmetric-lenses.qmd
         - chapters/18b-lens-combinators-and-scoped-transforms.qmd
         - chapters/18c-declarative-lens-specifications.qmd
+        - chapters/18d-declarative-theory-specifications.qmd
     - part: "Data Versioning"
       chapters:
         - chapters/19-data-versioning.qmd
