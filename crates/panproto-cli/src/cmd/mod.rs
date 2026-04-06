@@ -10,4 +10,5 @@ pub mod lens;
 pub mod migrate;
 pub mod parse;
 pub mod schema;
+pub mod theory;
 pub mod vcs;

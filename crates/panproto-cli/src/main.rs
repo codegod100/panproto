@@ -651,6 +651,13 @@ enum Command {
         action: DataAction,
     },
 
+    // -- Theory DSL operations --
+    /// Theory DSL operations: define theories, morphisms, and protocols from data files.
+    Theory {
+        #[command(subcommand)]
+        action: TheoryAction,
+    },
+
     // -- Lens operations --
     /// Bidirectional lens operations.
     Lens {
@@ -811,6 +818,39 @@ enum EnrichAction {
     Remove {
         /// Enrichment name or vertex name to remove enrichments from.
         name: String,
+    },
+}
+
+/// Theory DSL sub-operations.
+#[derive(clap::Subcommand, Debug)]
+enum TheoryAction {
+    /// Validate a theory document (load + typecheck).
+    Validate {
+        /// Path to the theory document file (.ncl, .json, .yaml).
+        file: PathBuf,
+    },
+    /// Compile a theory document and print results.
+    Compile {
+        /// Path to the theory document file.
+        file: PathBuf,
+        /// Output as JSON.
+        #[arg(long)]
+        json: bool,
+    },
+    /// Compile all theory documents in a directory.
+    CompileDir {
+        /// Path to the directory.
+        dir: PathBuf,
+    },
+    /// Validate a morphism document.
+    CheckMorphism {
+        /// Path to the morphism document file.
+        file: PathBuf,
+    },
+    /// Replay a composition and print the resulting theory.
+    Recompose {
+        /// Path to the composition document file.
+        file: PathBuf,
     },
 }
 
@@ -1060,6 +1100,9 @@ fn dispatch(command: Command, verbose: bool) -> Result<()> {
         | Command::Normalize { .. }
         | Command::Typecheck { .. }
         | Command::Verify { .. }) => dispatch_schema_commands(command, verbose),
+
+        // Theory DSL operations.
+        Command::Theory { action } => dispatch_theory_commands(action, verbose),
 
         // Lens operations.
         Command::Lens { action } => dispatch_lens_commands(action, verbose),
@@ -1419,6 +1462,20 @@ fn dispatch_enrich_commands(action: EnrichAction, verbose: bool) -> Result<()> {
 }
 
 /// Dispatch lens subcommands.
+fn dispatch_theory_commands(action: TheoryAction, verbose: bool) -> Result<()> {
+    match action {
+        TheoryAction::Validate { file } => cmd::theory::cmd_theory_validate(&file, verbose),
+        TheoryAction::Compile { file, json } => {
+            cmd::theory::cmd_theory_compile(&file, json, verbose)
+        }
+        TheoryAction::CompileDir { dir } => cmd::theory::cmd_theory_compile_dir(&dir, verbose),
+        TheoryAction::CheckMorphism { file } => {
+            cmd::theory::cmd_theory_check_morphism(&file, verbose)
+        }
+        TheoryAction::Recompose { file } => cmd::theory::cmd_theory_recompose(&file, verbose),
+    }
+}
+
 fn dispatch_lens_commands(action: LensAction, verbose: bool) -> Result<()> {
     match action {
         LensAction::Generate {

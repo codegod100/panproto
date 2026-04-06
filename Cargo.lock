@@ -1685,6 +1685,7 @@ dependencies = [
  "panproto-llvm",
  "panproto-parse",
  "panproto-project",
+ "panproto-theory-dsl",
  "panproto-vcs",
  "panproto-xrpc",
  "predicates",
@@ -2011,6 +2012,25 @@ dependencies = [
  "serde_json",
  "smallvec 2.0.0-alpha.12",
  "thiserror",
+]
+
+[[package]]
+name = "panproto-theory-dsl"
+version = "0.26.0"
+dependencies = [
+ "miette",
+ "nickel-lang",
+ "panproto-expr",
+ "panproto-expr-parser",
+ "panproto-gat",
+ "panproto-protocols",
+ "panproto-schema",
+ "proptest",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror",
+ "yaml_serde",
 ]
 
 [[package]]

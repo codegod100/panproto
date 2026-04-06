@@ -25,6 +25,7 @@ members = [
     "crates/git-remote-cospan",
     "crates/panproto-jit",
     "crates/panproto-lens-dsl",
+    "crates/panproto-theory-dsl",
     "tests/integration",
 ]
 
@@ -89,6 +90,7 @@ panproto-inst = { version = "0.26.0", path = "crates/panproto-inst" }
 panproto-mig = { version = "0.26.0", path = "crates/panproto-mig" }
 panproto-lens = { version = "0.26.0", path = "crates/panproto-lens" }
 panproto-lens-dsl = { version = "0.26.0", path = "crates/panproto-lens-dsl" }
+panproto-theory-dsl = { version = "0.26.0", path = "crates/panproto-theory-dsl" }
 panproto-check = { version = "0.26.0", path = "crates/panproto-check" }
 panproto-protocols = { version = "0.26.0", path = "crates/panproto-protocols" }
 panproto-core = { version = "0.26.0", path = "crates/panproto-core" }

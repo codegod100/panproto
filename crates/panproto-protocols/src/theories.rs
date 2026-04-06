@@ -645,7 +645,8 @@ pub fn constrained_graph_instance_specs(
 ///
 /// Uses a dependent sort `Edge(s: Vertex, t: Vertex)` to encode edge
 /// uniqueness structurally.
-fn th_simple_graph() -> Theory {
+#[must_use]
+pub fn th_simple_graph() -> Theory {
     Theory::new(
         "ThSimpleGraph",
         vec![
@@ -664,7 +665,8 @@ fn th_simple_graph() -> Theory {
 }
 
 /// `ThHypergraph`: hypergraph with labeled incidence.
-fn th_hypergraph() -> Theory {
+#[must_use]
+pub fn th_hypergraph() -> Theory {
     Theory::new(
         "ThHypergraph",
         vec![
@@ -688,7 +690,8 @@ fn th_hypergraph() -> Theory {
 }
 
 /// `ThInterface`: interface types (GraphQL, TypeScript, etc.).
-fn th_interface() -> Theory {
+#[must_use]
+pub fn th_interface() -> Theory {
     Theory::new(
         "ThInterface",
         vec![Sort::simple("Vertex"), Sort::simple("Interface")],
@@ -705,7 +708,8 @@ fn th_interface() -> Theory {
 }
 
 /// `ThFunctor`: set-valued functor instance (relational data).
-fn th_functor() -> Theory {
+#[must_use]
+pub fn th_functor() -> Theory {
     Theory::new(
         "ThFunctor",
         vec![
@@ -723,7 +727,8 @@ fn th_functor() -> Theory {
 }
 
 /// `ThFlat`: flat instance theory (key-value data).
-fn th_flat() -> Theory {
+#[must_use]
+pub fn th_flat() -> Theory {
     Theory::new(
         "ThFlat",
         vec![
@@ -741,7 +746,8 @@ fn th_flat() -> Theory {
 }
 
 /// `ThGraphInstance`: graph-shaped instance data (most general form).
-fn th_graph_instance() -> Theory {
+#[must_use]
+pub fn th_graph_instance() -> Theory {
     Theory::new(
         "ThGraphInstance",
         vec![
