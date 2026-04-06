@@ -1,0 +1,28 @@
+{
+  "lexicon": 1,
+  "id": "dev.panproto.registry.package",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "any",
+      "record": {
+        "type": "object",
+        "required": ["name", "protocol", "createdAt"],
+        "properties": {
+          "name": { "type": "string", "maxLength": 128 },
+          "description": { "type": "string", "maxLength": 2560 },
+          "protocol": { "type": "string", "maxLength": 128 },
+          "license": { "type": "string", "maxLength": 64 },
+          "keywords": {
+            "type": "array",
+            "items": { "type": "string", "maxLength": 64 },
+            "maxLength": 20
+          },
+          "homepage": { "type": "string", "format": "uri" },
+          "latestVersion": { "type": "string", "format": "at-uri" },
+          "createdAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}

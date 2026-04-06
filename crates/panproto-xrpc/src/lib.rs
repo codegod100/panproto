@@ -1,10 +1,10 @@
 #![allow(clippy::future_not_send)]
 //! # panproto-xrpc
 //!
-//! XRPC client for cospan node VCS operations.
+//! XRPC client for panproto node VCS operations.
 //!
-//! Implements the `dev.cospan.node.*` XRPC endpoints for push/pull/clone
-//! of panproto-vcs objects between local stores and remote cospan nodes.
+//! Implements the `dev.panproto.node.*` XRPC endpoints for push/pull/clone
+//! of panproto-vcs objects between local stores and remote nodes.
 //!
 //! ## Endpoints
 //!
@@ -33,7 +33,7 @@
 //! 3. `getObject` for each needed object, store locally
 //! 4. Update local refs
 
-/// XRPC client for cospan node operations.
+/// XRPC client for panproto node operations.
 pub mod client;
 
 /// Error types for XRPC operations.

@@ -1,7 +1,7 @@
-//! XRPC client for cospan node VCS operations.
+//! XRPC client for panproto node VCS operations.
 //!
-//! Implements the `dev.cospan.node.*` XRPC endpoints for push/pull/clone
-//! of panproto-vcs objects between local stores and remote cospan nodes.
+//! Implements the `dev.panproto.node.*` XRPC endpoints for push/pull/clone
+//! of panproto-vcs objects between local stores and remote nodes.
 
 use panproto_vcs::{HeadState, Object, ObjectId, Store};
 use reqwest::Client;
@@ -9,10 +9,10 @@ use serde::{Deserialize, Serialize};
 
 use crate::error::XrpcError;
 
-/// A client for communicating with a cospan node's XRPC endpoints.
+/// A client for communicating with a panproto node's XRPC endpoints.
 #[derive(Debug, Clone)]
 pub struct NodeClient {
-    /// Base URL of the cospan node (e.g. `https://node.cospan.dev`).
+    /// Base URL of the panproto node (e.g. `https://node.panproto.dev`).
     base_url: String,
     /// The DID identifying the repo owner.
     did: String,
@@ -45,7 +45,7 @@ pub struct RepoInfo {
 }
 
 impl NodeClient {
-    /// Create a new client for a cospan node.
+    /// Create a new client for a panproto node.
     #[must_use]
     pub fn new(base_url: &str, did: &str, repo: &str) -> Self {
         Self {
@@ -64,28 +64,34 @@ impl NodeClient {
         self
     }
 
-    /// Parse a `cospan://did/repo` URL into (`base_url`, `did`, `repo`).
+    /// Parse a `panproto://did/repo` URL into (`base_url`, `did`, `repo`).
     ///
-    /// The base URL defaults to `https://node.cospan.dev` unless overridden
-    /// by the `COSPAN_NODE_URL` environment variable.
+    /// Also accepts the legacy `cospan://` prefix for backward compatibility.
+    /// The base URL defaults to `https://node.panproto.dev` unless overridden
+    /// by the `PANPROTO_NODE_URL` environment variable (falls back to
+    /// `COSPAN_NODE_URL` for backward compatibility).
     ///
     /// # Errors
     ///
     /// Returns [`XrpcError::InvalidUrl`] if the URL format is invalid.
     pub fn from_url(url: &str) -> Result<Self, XrpcError> {
         let path = url
-            .strip_prefix("cospan://")
-            .ok_or_else(|| XrpcError::InvalidUrl(format!("expected cospan:// prefix: {url}")))?;
+            .strip_prefix("panproto://")
+            .or_else(|| url.strip_prefix("cospan://"))
+            .ok_or_else(|| {
+                XrpcError::InvalidUrl(format!("expected panproto:// or cospan:// prefix: {url}"))
+            })?;
 
         let parts: Vec<&str> = path.splitn(2, '/').collect();
         if parts.len() != 2 {
             return Err(XrpcError::InvalidUrl(format!(
-                "expected cospan://did/repo: {url}"
+                "expected panproto://did/repo: {url}"
             )));
         }
 
-        let base = std::env::var("COSPAN_NODE_URL")
-            .unwrap_or_else(|_| "https://node.cospan.dev".to_owned());
+        let base = std::env::var("PANPROTO_NODE_URL")
+            .or_else(|_| std::env::var("COSPAN_NODE_URL"))
+            .unwrap_or_else(|_| "https://node.panproto.dev".to_owned());
 
         Ok(Self::new(&base, parts[0], parts[1]))
     }
@@ -99,7 +105,7 @@ impl NodeClient {
     /// Returns [`XrpcError`] on network or decode failure.
     pub async fn get_object(&self, id: &ObjectId) -> Result<Object, XrpcError> {
         let url = format!(
-            "{}/xrpc/dev.cospan.node.getObject?did={}&repo={}&id={}",
+            "{}/xrpc/dev.panproto.node.getObject?did={}&repo={}&id={}",
             self.base_url, self.did, self.repo, id
         );
         let resp = self.http.get(&url).send().await?;
@@ -124,7 +130,7 @@ impl NodeClient {
     /// Returns [`XrpcError`] on network failure or if the ref doesn't exist.
     pub async fn get_ref(&self, ref_name: &str) -> Result<Option<ObjectId>, XrpcError> {
         let url = format!(
-            "{}/xrpc/dev.cospan.node.getRef?did={}&repo={}&ref={}",
+            "{}/xrpc/dev.panproto.node.getRef?did={}&repo={}&ref={}",
             self.base_url, self.did, self.repo, ref_name
         );
         let resp = self.http.get(&url).send().await?;
@@ -158,7 +164,7 @@ impl NodeClient {
     /// Returns [`XrpcError`] on network failure.
     pub async fn list_refs(&self) -> Result<Vec<(String, ObjectId)>, XrpcError> {
         let url = format!(
-            "{}/xrpc/dev.cospan.node.listRefs?did={}&repo={}",
+            "{}/xrpc/dev.panproto.node.listRefs?did={}&repo={}",
             self.base_url, self.did, self.repo
         );
         let resp = self.http.get(&url).send().await?;
@@ -195,7 +201,7 @@ impl NodeClient {
     /// Returns [`XrpcError`] on network failure.
     pub async fn get_head(&self) -> Result<HeadState, XrpcError> {
         let url = format!(
-            "{}/xrpc/dev.cospan.node.getHead?did={}&repo={}",
+            "{}/xrpc/dev.panproto.node.getHead?did={}&repo={}",
             self.base_url, self.did, self.repo
         );
         let resp = self.http.get(&url).send().await?;
@@ -223,7 +229,7 @@ impl NodeClient {
     /// Returns [`XrpcError`] on network failure.
     pub async fn get_repo_info(&self) -> Result<RepoInfo, XrpcError> {
         let url = format!(
-            "{}/xrpc/dev.cospan.node.getRepoInfo?did={}&repo={}",
+            "{}/xrpc/dev.panproto.node.getRepoInfo?did={}&repo={}",
             self.base_url, self.did, self.repo
         );
         let resp = self.http.get(&url).send().await?;
@@ -247,7 +253,7 @@ impl NodeClient {
             .ok_or_else(|| XrpcError::AuthRequired("putObject requires auth".to_owned()))?;
 
         let url = format!(
-            "{}/xrpc/dev.cospan.node.putObject?did={}&repo={}",
+            "{}/xrpc/dev.panproto.node.putObject?did={}&repo={}",
             self.base_url, self.did, self.repo
         );
         let body = rmp_serde::to_vec(object)?;
@@ -280,7 +286,7 @@ impl NodeClient {
             .as_ref()
             .ok_or_else(|| XrpcError::AuthRequired("setRef requires auth".to_owned()))?;
 
-        let url = format!("{}/xrpc/dev.cospan.node.setRef", self.base_url);
+        let url = format!("{}/xrpc/dev.panproto.node.setRef", self.base_url);
         let body = serde_json::json!({
             "did": self.did,
             "repo": self.repo,
@@ -322,7 +328,7 @@ impl NodeClient {
         have: &[ObjectId],
         want: &[String],
     ) -> Result<NegotiateResult, XrpcError> {
-        let url = format!("{}/xrpc/dev.cospan.node.negotiate", self.base_url);
+        let url = format!("{}/xrpc/dev.panproto.node.negotiate", self.base_url);
         let body = serde_json::json!({
             "did": self.did,
             "repo": self.repo,

@@ -1,0 +1,21 @@
+{
+  "lexicon": 1,
+  "id": "dev.panproto.meta.lexiconSchema",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["lexiconId", "schema", "version", "createdAt"],
+        "properties": {
+          "lexiconId": { "type": "string", "maxLength": 256 },
+          "schema": { "type": "string", "format": "at-uri" },
+          "version": { "type": "string", "maxLength": 64 },
+          "parsedAt": { "type": "string", "format": "datetime" },
+          "createdAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}

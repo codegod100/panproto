@@ -1,0 +1,30 @@
+{
+  "lexicon": 1,
+  "id": "dev.panproto.node.getRepoInfo",
+  "defs": {
+    "main": {
+      "type": "query",
+      "parameters": {
+        "type": "params",
+        "required": ["repo"],
+        "properties": {
+          "repo": { "type": "string", "maxLength": 256 }
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "type": "object",
+          "required": ["protocol"],
+          "properties": {
+            "protocol": { "type": "string", "maxLength": 128 },
+            "defaultBranch": { "type": "string", "maxLength": 256 },
+            "commitCount": { "type": "integer" },
+            "branchCount": { "type": "integer" },
+            "tagCount": { "type": "integer" }
+          }
+        }
+      }
+    }
+  }
+}

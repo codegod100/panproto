@@ -1,0 +1,23 @@
+{
+  "lexicon": 1,
+  "id": "dev.panproto.node",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["createdAt"],
+        "properties": {
+          "publicEndpoint": { "type": "string", "format": "uri" },
+          "protocols": {
+            "type": "array",
+            "items": { "type": "string", "maxLength": 128 },
+            "maxLength": 200
+          },
+          "createdAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}

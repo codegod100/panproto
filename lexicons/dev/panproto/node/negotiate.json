@@ -1,0 +1,42 @@
+{
+  "lexicon": 1,
+  "id": "dev.panproto.node.negotiate",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "type": "object",
+          "required": ["repo"],
+          "properties": {
+            "repo": { "type": "string", "maxLength": 256 },
+            "haves": {
+              "type": "array",
+              "items": { "type": "string", "maxLength": 64 },
+              "maxLength": 1000
+            },
+            "wants": {
+              "type": "array",
+              "items": { "type": "string", "maxLength": 64 },
+              "maxLength": 1000
+            }
+          }
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "type": "object",
+          "required": ["missing"],
+          "properties": {
+            "missing": {
+              "type": "array",
+              "items": { "type": "string", "maxLength": 64 }
+            }
+          }
+        }
+      }
+    }
+  }
+}

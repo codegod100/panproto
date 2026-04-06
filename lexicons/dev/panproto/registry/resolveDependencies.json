@@ -1,0 +1,39 @@
+{
+  "lexicon": 1,
+  "id": "dev.panproto.registry.resolveDependencies",
+  "defs": {
+    "main": {
+      "type": "query",
+      "parameters": {
+        "type": "params",
+        "required": ["package"],
+        "properties": {
+          "package": { "type": "string", "format": "at-uri" },
+          "version": { "type": "string", "maxLength": 64 }
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "type": "object",
+          "required": ["resolved"],
+          "properties": {
+            "resolved": {
+              "type": "array",
+              "items": { "type": "ref", "ref": "#resolvedDep" }
+            }
+          }
+        }
+      }
+    },
+    "resolvedDep": {
+      "type": "object",
+      "required": ["packageUri", "version"],
+      "properties": {
+        "packageUri": { "type": "string", "format": "at-uri" },
+        "version": { "type": "string", "maxLength": 64 },
+        "morphismHash": { "type": "string", "maxLength": 64 }
+      }
+    }
+  }
+}

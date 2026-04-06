@@ -1,0 +1,23 @@
+{
+  "lexicon": 1,
+  "id": "dev.panproto.registry.version",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["package", "version", "schema", "createdAt"],
+        "properties": {
+          "package": { "type": "string", "format": "at-uri" },
+          "version": { "type": "string", "maxLength": 64 },
+          "schema": { "type": "string", "format": "at-uri" },
+          "migration": { "type": "string", "format": "at-uri" },
+          "lens": { "type": "string", "format": "at-uri" },
+          "changelog": { "type": "string", "maxLength": 100000 },
+          "createdAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}

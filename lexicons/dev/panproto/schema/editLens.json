@@ -1,0 +1,21 @@
+{
+  "lexicon": 1,
+  "id": "dev.panproto.schema.editLens",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["lens", "protocol", "objectHash", "createdAt"],
+        "properties": {
+          "lens": { "type": "string", "format": "at-uri" },
+          "protocol": { "type": "string", "format": "at-uri" },
+          "objectHash": { "type": "string", "maxLength": 64 },
+          "blob": { "type": "blob", "accept": ["application/x-msgpack"], "maxSize": 1048576 },
+          "createdAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}

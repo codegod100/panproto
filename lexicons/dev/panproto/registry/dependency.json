@@ -1,0 +1,25 @@
+{
+  "lexicon": 1,
+  "id": "dev.panproto.registry.dependency",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["sourcePackage", "targetPackage", "createdAt"],
+        "properties": {
+          "sourcePackage": { "type": "string", "format": "at-uri" },
+          "targetPackage": { "type": "string", "format": "at-uri" },
+          "versionRange": { "type": "string", "maxLength": 64 },
+          "morphismHash": { "type": "string", "maxLength": 64 },
+          "kind": {
+            "type": "string",
+            "knownValues": ["schema", "theory", "protocol"]
+          },
+          "createdAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}

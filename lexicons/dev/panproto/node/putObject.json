@@ -1,0 +1,23 @@
+{
+  "lexicon": 1,
+  "id": "dev.panproto.node.putObject",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "encoding": "application/x-msgpack"
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "type": "object",
+          "required": ["hash", "stored"],
+          "properties": {
+            "hash": { "type": "string", "maxLength": 64 },
+            "stored": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  }
+}

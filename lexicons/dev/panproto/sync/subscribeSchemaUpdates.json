@@ -1,0 +1,59 @@
+{
+  "lexicon": 1,
+  "id": "dev.panproto.sync.subscribeSchemaUpdates",
+  "defs": {
+    "main": {
+      "type": "subscription",
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "protocol": { "type": "string", "maxLength": 128 },
+          "cursor": { "type": "integer" }
+        }
+      },
+      "message": {
+        "schema": {
+          "type": "union",
+          "refs": ["#schemaUpdate", "#commitUpdate", "#refUpdate"]
+        }
+      }
+    },
+    "schemaUpdate": {
+      "type": "object",
+      "required": ["seq", "did", "schemaUri", "protocol", "time"],
+      "properties": {
+        "seq": { "type": "integer" },
+        "did": { "type": "string", "format": "did" },
+        "schemaUri": { "type": "string", "format": "at-uri" },
+        "protocol": { "type": "string", "maxLength": 128 },
+        "objectHash": { "type": "string", "maxLength": 64 },
+        "time": { "type": "string", "format": "datetime" }
+      }
+    },
+    "commitUpdate": {
+      "type": "object",
+      "required": ["seq", "did", "commitUri", "protocol", "time"],
+      "properties": {
+        "seq": { "type": "integer" },
+        "did": { "type": "string", "format": "did" },
+        "commitUri": { "type": "string", "format": "at-uri" },
+        "protocol": { "type": "string", "maxLength": 128 },
+        "objectHash": { "type": "string", "maxLength": 64 },
+        "time": { "type": "string", "format": "datetime" }
+      }
+    },
+    "refUpdate": {
+      "type": "object",
+      "required": ["seq", "did", "refUpdateUri", "protocol", "time"],
+      "properties": {
+        "seq": { "type": "integer" },
+        "did": { "type": "string", "format": "did" },
+        "refUpdateUri": { "type": "string", "format": "at-uri" },
+        "protocol": { "type": "string", "maxLength": 128 },
+        "refName": { "type": "string", "maxLength": 256 },
+        "newTarget": { "type": "string", "maxLength": 64 },
+        "time": { "type": "string", "format": "datetime" }
+      }
+    }
+  }
+}
