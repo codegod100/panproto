@@ -50,3 +50,9 @@ planning/
 
 # Lean
 lean/.lake/
+
+# Nix
+result
+result-*
+.direnv/
+.envrc

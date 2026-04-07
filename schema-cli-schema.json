@@ -1,0 +1,503 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Panproto CLI Configuration",
+  "description": "Configuration schema for the panproto schematic version control CLI based on generalized algebraic theories",
+  "type": "object",
+  "properties": {
+    "verbose": {
+      "type": "boolean",
+      "description": "Enable verbose output",
+      "default": false
+    },
+    "command": {
+      "type": "string",
+      "description": "Subcommand to execute",
+      "enum": [
+        "validate",
+        "check",
+        "scaffold",
+        "normalize",
+        "typecheck",
+        "verify",
+        "init",
+        "add",
+        "commit",
+        "status",
+        "log",
+        "diff",
+        "show",
+        "branch",
+        "tag",
+        "checkout",
+        "merge",
+        "rebase",
+        "cherry-pick",
+        "reset",
+        "stash",
+        "reflog",
+        "bisect",
+        "blame",
+        "gc",
+        "lift",
+        "integrate",
+        "auto-migrate",
+        "expr",
+        "enrich",
+        "remote",
+        "push",
+        "pull",
+        "fetch",
+        "clone",
+        "data",
+        "theory",
+        "lens",
+        "parse",
+        "git"
+      ]
+    },
+    "schema": {
+      "type": "object",
+      "description": "Schema validation and manipulation settings",
+      "properties": {
+        "protocol": {
+          "type": "string",
+          "description": "Protocol name (e.g., atproto, json-schema, openapi)"
+        },
+        "path": {
+          "type": "string",
+          "description": "Path to schema JSON file"
+        }
+      }
+    },
+    "migration": {
+      "type": "object",
+      "description": "Migration settings for schema evolution",
+      "properties": {
+        "src": {
+          "type": "string",
+          "description": "Source schema path"
+        },
+        "tgt": {
+          "type": "string",
+          "description": "Target schema path"
+        },
+        "mapping": {
+          "type": "string",
+          "description": "Migration mapping file path"
+        },
+        "typecheck": {
+          "type": "boolean",
+          "description": "Type-check the migration morphism at the GAT level",
+          "default": false
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["restrict", "sigma", "pi"],
+          "default": "restrict",
+          "description": "Migration direction: restrict (Delta_F), sigma (Sigma_F), or pi (Pi_F)"
+        },
+        "instance_type": {
+          "type": "string",
+          "enum": ["wtype", "functor"],
+          "default": "wtype",
+          "description": "Instance type for migration"
+        }
+      }
+    },
+    "vcs": {
+      "type": "object",
+      "description": "Version control settings",
+      "properties": {
+        "author": {
+          "type": "string",
+          "description": "Author name for commits",
+          "default": "anonymous"
+        },
+        "initial_branch": {
+          "type": "string",
+          "description": "Name for initial branch",
+          "default": "main"
+        },
+        "message": {
+          "type": "string",
+          "description": "Commit message"
+        },
+        "amend": {
+          "type": "boolean",
+          "description": "Amend previous commit",
+          "default": false
+        },
+        "allow_empty": {
+          "type": "boolean",
+          "description": "Allow empty commits",
+          "default": false
+        },
+        "skip_verify": {
+          "type": "boolean",
+          "description": "Skip GAT equation verification",
+          "default": false
+        },
+        "dry_run": {
+          "type": "boolean",
+          "description": "Preview without making changes",
+          "default": false
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Force operation even if validation fails",
+          "default": false
+        }
+      }
+    },
+    "lens": {
+      "type": "object",
+      "description": "Bidirectional lens (protolens) settings",
+      "properties": {
+        "direction": {
+          "type": "string",
+          "enum": ["forward", "backward"],
+          "default": "forward",
+          "description": "Lens application direction"
+        },
+        "fuse": {
+          "type": "boolean",
+          "description": "Fuse multi-step chain into single protolens",
+          "default": false
+        },
+        "chain": {
+          "type": "boolean",
+          "description": "Output a reusable protolens chain",
+          "default": false
+        },
+        "try_overlap": {
+          "type": "boolean",
+          "description": "Try overlap-based alignment when direct morphism fails",
+          "default": false
+        },
+        "requirements": {
+          "type": "boolean",
+          "description": "Show complement requirements (defaults/data needed)",
+          "default": false
+        },
+        "defaults": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Default values as key=value pairs for lens generation"
+        },
+        "monic": {
+          "type": "boolean",
+          "description": "Require injective (one-to-one) vertex mapping",
+          "default": false
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "description": "Data migration and conversion settings",
+      "properties": {
+        "dry_run": {
+          "type": "boolean",
+          "description": "Preview without modifying files",
+          "default": false
+        },
+        "backward": {
+          "type": "boolean",
+          "description": "Migrate backward (requires stored complement)",
+          "default": false
+        },
+        "coverage": {
+          "type": "boolean",
+          "description": "Print coverage statistics after migration",
+          "default": false
+        },
+        "edits": {
+          "type": "boolean",
+          "description": "Store an edit log object in VCS",
+          "default": false
+        }
+      }
+    },
+    "scaffold": {
+      "type": "object",
+      "description": "Test data scaffolding settings",
+      "properties": {
+        "depth": {
+          "type": "integer",
+          "description": "Maximum term generation depth",
+          "default": 3,
+          "minimum": 1
+        },
+        "max_terms": {
+          "type": "integer",
+          "description": "Maximum terms per sort",
+          "default": 1000,
+          "minimum": 1
+        }
+      }
+    },
+    "normalize": {
+      "type": "object",
+      "description": "Schema normalization settings",
+      "properties": {
+        "identifications": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Pairs of elements to identify, as 'A=B'"
+        }
+      }
+    },
+    "enrich": {
+      "type": "object",
+      "description": "Schema enrichment settings (defaults, coercions, mergers, policies)",
+      "properties": {
+        "vertex": {
+          "type": "string",
+          "description": "Vertex name to enrich"
+        },
+        "expr": {
+          "type": "string",
+          "description": "Expression as JSON string"
+        },
+        "from": {
+          "type": "string",
+          "description": "Source vertex kind for coercion"
+        },
+        "to": {
+          "type": "string",
+          "description": "Target vertex kind for coercion"
+        },
+        "strategy": {
+          "type": "string",
+          "description": "Conflict resolution strategy name"
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "description": "Output formatting settings",
+      "properties": {
+        "json": {
+          "type": "boolean",
+          "description": "Output as JSON",
+          "default": false
+        },
+        "short": {
+          "type": "boolean",
+          "description": "Short output format",
+          "default": false
+        },
+        "porcelain": {
+          "type": "boolean",
+          "description": "Machine-readable format",
+          "default": false
+        },
+        "oneline": {
+          "type": "boolean",
+          "description": "Single line per item",
+          "default": false
+        },
+        "format": {
+          "type": "string",
+          "description": "Pretty-print format string"
+        }
+      }
+    },
+    "diff": {
+      "type": "object",
+      "description": "Diff display settings",
+      "properties": {
+        "stat": {
+          "type": "boolean",
+          "description": "Show diffstat summary",
+          "default": false
+        },
+        "name_only": {
+          "type": "boolean",
+          "description": "Show only names of changed elements",
+          "default": false
+        },
+        "name_status": {
+          "type": "boolean",
+          "description": "Show names and status (A/D/M) of changed elements",
+          "default": false
+        },
+        "staged": {
+          "type": "boolean",
+          "description": "Diff staged schema against HEAD",
+          "default": false
+        },
+        "detect_renames": {
+          "type": "boolean",
+          "description": "Detect likely renames between schemas",
+          "default": false
+        },
+        "theory": {
+          "type": "boolean",
+          "description": "Show theory-level diff (sorts, operations, equations)",
+          "default": false
+        },
+        "lens": {
+          "type": "boolean",
+          "description": "Generate a protolens chain between schemas",
+          "default": false
+        },
+        "optic_kind": {
+          "type": "boolean",
+          "description": "Show the optic classification of the diff",
+          "default": false
+        }
+      }
+    },
+    "merge": {
+      "type": "object",
+      "description": "Merge operation settings",
+      "properties": {
+        "no_commit": {
+          "type": "boolean",
+          "description": "Perform merge but do not commit",
+          "default": false
+        },
+        "ff_only": {
+          "type": "boolean",
+          "description": "Refuse to merge unless fast-forward is possible",
+          "default": false
+        },
+        "no_ff": {
+          "type": "boolean",
+          "description": "Create merge commit even for fast-forward merges",
+          "default": false
+        },
+        "squash": {
+          "type": "boolean",
+          "description": "Squash branch into a single change set",
+          "default": false
+        },
+        "abort": {
+          "type": "boolean",
+          "description": "Abort in-progress merge",
+          "default": false
+        }
+      }
+    },
+    "log": {
+      "type": "object",
+      "description": "Log display settings",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of commits to show",
+          "minimum": 1
+        },
+        "graph": {
+          "type": "boolean",
+          "description": "Show ASCII graph of branch structure",
+          "default": false
+        },
+        "all": {
+          "type": "boolean",
+          "description": "Show all branches, not just current",
+          "default": false
+        },
+        "show_data": {
+          "type": "boolean",
+          "description": "Show data and complement IDs in history",
+          "default": false
+        }
+      }
+    },
+    "branch": {
+      "type": "object",
+      "description": "Branch operation settings",
+      "properties": {
+        "delete": {
+          "type": "boolean",
+          "description": "Delete the branch",
+          "default": false
+        },
+        "force_delete": {
+          "type": "boolean",
+          "description": "Force-delete even if not fully merged",
+          "default": false
+        },
+        "all": {
+          "type": "boolean",
+          "description": "List both local and remote-tracking branches",
+          "default": false
+        }
+      }
+    },
+    "tag": {
+      "type": "object",
+      "description": "Tag operation settings",
+      "properties": {
+        "annotate": {
+          "type": "boolean",
+          "description": "Create an annotated tag",
+          "default": false
+        },
+        "list": {
+          "type": "boolean",
+          "description": "List tags matching pattern",
+          "default": false
+        }
+      }
+    },
+    "checkout": {
+      "type": "object",
+      "description": "Checkout operation settings",
+      "properties": {
+        "create": {
+          "type": "boolean",
+          "description": "Create new branch and switch to it",
+          "default": false
+        },
+        "detach": {
+          "type": "boolean",
+          "description": "Detach HEAD at target commit",
+          "default": false
+        }
+      }
+    },
+    "stash": {
+      "type": "object",
+      "description": "Stash operation settings",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Optional stash message"
+        },
+        "index": {
+          "type": "integer",
+          "description": "Stash index to apply/show",
+          "default": 0,
+          "minimum": 0
+        }
+      }
+    },
+    "git": {
+      "type": "object",
+      "description": "Git bridge settings",
+      "properties": {
+        "revspec": {
+          "type": "string",
+          "description": "Git revspec for import (e.g., HEAD, main, HEAD~10..HEAD)",
+          "default": "HEAD"
+        }
+      }
+    },
+    "verify": {
+      "type": "object",
+      "description": "Verification settings",
+      "properties": {
+        "max_assignments": {
+          "type": "integer",
+          "description": "Maximum assignments to check per equation",
+          "default": 10000,
+          "minimum": 1
+        }
+      }
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}
